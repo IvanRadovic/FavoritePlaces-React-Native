@@ -7,6 +7,8 @@ import AllPlacesScreen from "./screens/AllPlaces/AllPlacesScreen.components"
 import AddPlaceScreen from './screens/AddPlace/AddPlaceScreen.component';
 import IconButton from './components/UI/IconButton.component';
 
+import { Colors } from "./constants/Colors.component";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -14,11 +16,16 @@ export default function App() {
     <>
     <StatusBar style='dark' />
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerStyle:{backgroundColor: Colors.primary500},
+        headerTintColor: Colors.gray700,
+        contentStyle:{ backgroundColor: Colors.gray700}
+      }}>
           <Stack.Screen 
             name='AllPlaces' 
             component={AllPlacesScreen} 
             options={({navigation}) => ({
+              title:'Your favorite places',
               headerRight: ({tintColor}) => (
                 <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate('AddPlace')} />
               )
@@ -28,6 +35,9 @@ export default function App() {
           <Stack.Screen 
             name='AddPlace' 
             component={AddPlaceScreen} 
+            options={{
+              title:'Add new place'
+            }}
           />
       </Stack.Navigator>
     </NavigationContainer>
