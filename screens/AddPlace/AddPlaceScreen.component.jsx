@@ -1,11 +1,14 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
+import PlaceForm from "../../components/Places/PlaceForm.component";
 
 const AddPlaceScreen = () => {
     return ( 
-        <View>
-            AddPlace screen
-        </View>
+        <PlaceForm />
      );
 }
  
 export default AddPlaceScreen;
+
+const styles = StyleSheet.create({
+    
+});
