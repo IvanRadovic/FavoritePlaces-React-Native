@@ -1,12 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import AllPlacesScreen from "./screens/AllPlaces/AllPlacesScreen.components"
+import AddPlaceScreen from './screens/AddPlace/AddPlaceScreen.component';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Favorite list</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+    <StatusBar style='dark' />
+    <NavigationContainer>
+      <Stack.Navigator>
+          <Stack.Screen name='AllPlaces' component={AllPlacesScreen} />
+          <Stack.Screen name='AddPlace' component={AddPlaceScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    </>
   );
 }
 
