@@ -1,10 +1,9 @@
 import { View } from "react-native";
+import PlacesList from "../../components/Places/PlacesList.component";
 
 const AllPlacesScreen = () => {
     return (
-        <View>
-            All places
-        </View>
+        <PlacesList />
       );
 }
  
