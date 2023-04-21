@@ -5,7 +5,7 @@ import {
   PermissionStatus,
 } from 'expo-image-picker';
 import { useState } from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from "../../constants/Colors.component";
 
 import OutlinedButton from '../UI/OutlinedButton.component';
 
