@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import AllPlacesScreen from "./screens/AllPlaces/AllPlacesScreen.components"
 import AddPlaceScreen from './screens/AddPlace/AddPlaceScreen.component';
+import Map from './screens/Map/Map.component';
 import IconButton from './components/UI/IconButton.component';
 
 import { Colors } from "./constants/Colors.component";
@@ -39,6 +40,8 @@ export default function App() {
               title:'Add new place'
             }}
           />
+
+          <Stack.Screen name="Map" component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
     </>
