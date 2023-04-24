@@ -1,12 +1,14 @@
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, Image, Text } from "react-native";
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from 'expo-location'
 import OutlinedButton from "../UI/OutlinedButton.component"
 import { Colors } from "../../constants/Colors.component";
+import { useState } from "react";
+import { getMapPreview } from "../../util/loaction";
 
 
 const LocationPicker = () => {
     const [locationPermissionInformation, requestPermission] = useForegroundPermissions();
-
+    const [pcikedLocation, setPickedLocation] = useState();
 
     /* --- verify permissions for location --- */
     async function verifyPermissions(){
@@ -31,15 +33,34 @@ const LocationPicker = () => {
             return;
         }
         const location = await getCurrentPositionAsync();
+        setPickedLocation({
+            lat:location.coords.latitude,
+            lang:location.coords.longitude
+        })
     }
 
     function pickOnMapHandler(){
 
     }
 
+    let locationPreview = <Text> No location picked yet ..</Text>
+
+    if(pcikedLocation){
+        locationPreview = (
+            <Image 
+                style={styles.image}
+                source={{
+                    uri:getMapPreview(pcikedLocation.lat, pcikedLocation.lng),
+                }} 
+            />
+        )
+    }
+
     return ( 
         <View>
-            <View style={styles.mapPreview}></View>
+            <View style={styles.mapPreview}>
+                {locationPreview}
+            </View>
             <View style={styles.actions}>
                 <OutlinedButton icon="location" onPress={getLocationHandler}>Locate user</OutlinedButton>
                 <OutlinedButton icon="map" onPress={pickOnMapHandler}>Pick on map</OutlinedButton>
@@ -58,7 +79,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:Colors.primary100,
-        borderRadius:5
+        borderRadius:5,
+        overflow:'hidden'
     },
     actions:{
         flexDirection:'row',
@@ -66,4 +88,9 @@ const styles = StyleSheet.create({
         alignItems:'center'
 
     },
+    image:{
+        width:'100%',
+        height:'100%',
+        borderRadius:5
+    }
 });
