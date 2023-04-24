@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native";
 
 /* --- Components --- */
@@ -7,46 +7,66 @@ import ImagePicker from "./ImagePicker.component";
 import LocationPicker from "./LocationPicker.component";
 import Button from "../UI/Button.component";
 
-const PlaceForm = () => {
-
+function PlaceForm() {
     const [enteredTitle, setEnteredTitle] = useState('');
-
-    const changeTitleHanlder = (enteredText) => {
-      setEnteredTitle(enteredText)
+    const [selectedImage, setSelectedImage] = useState();
+    const [pickedLocation, setPickedLocation] = useState();
+  
+    function changeTitleHandler(enteredText) {
+      setEnteredTitle(enteredText);
     }
-
+  
+    function takeImageHandler(imageUri) {
+      setSelectedImage(imageUri);
+    }
+  
+    const pickLocationHandler = useCallback((location) => {
+      setPickedLocation(location);
+    }, []);
+  
+    function savePlaceHandler() {
+      console.log(enteredTitle);
+      console.log(selectedImage);
+      console.log(pickedLocation);
+    }
+  
     return (
-        <ScrollView style={styles.form}>
-            <View>
-                <Text style={styles.label}>Ttitle</Text>
-                <TextInput style={styles.input} value={enteredTitle} onChange={changeTitleHanlder}/>
-            </View>
-            <ImagePicker />
-            <LocationPicker />
-            <Button>ADD PLACE</Button>
-        </ScrollView>
-      );
-}
- 
-export default PlaceForm;
-
-const styles = StyleSheet.create({
+      <ScrollView style={styles.form}>
+        <View>
+          <Text style={styles.label}>Title</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={changeTitleHandler}
+            value={enteredTitle}
+          />
+        </View>
+        <ImagePicker onTakeImage={takeImageHandler} />
+        <LocationPicker onPickLocation={pickLocationHandler} />
+        <Button onPress={savePlaceHandler}>Add Place</Button>
+      </ScrollView>
+    );
+  }
+  
+  export default PlaceForm;
+  
+  const styles = StyleSheet.create({
     form: {
-        flex:1,
-        padding:24,
+      flex: 1,
+      padding: 24,
     },
-    label:{
-        fontWeight:'bold',
-        marginBottom:5,
-        color:Colors.primary500
+    label: {
+      fontWeight: 'bold',
+      marginBottom: 4,
+      color: Colors.primary500,
     },
-    input:{
-        marginVertical:10,
-        paddingHorizontal:5,
-        paddingVertical:8,
-        fontSize:16,
-        borderBottomColor:Colors.primary700,
-        borderBottomWidth:2,
-        backgroundColor:Colors.primary100
-    }
-});
+    input: {
+      marginVertical: 8,
+      paddingHorizontal: 4,
+      paddingVertical: 8,
+      fontSize: 16,
+      borderBottomColor: Colors.primary700,
+      borderBottomWidth: 2,
+      backgroundColor: Colors.primary100,
+    },
+  });
+  

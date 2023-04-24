@@ -9,7 +9,7 @@ import { Colors } from "../../constants/Colors.component";
 import { getMapPreview } from "../../util/loaction";
 
 
-const LocationPicker = () => {
+const LocationPicker = ({onPickLocation}) => {
     const [pickedLocation, setPickedLocation] = useState();
     const isFocused = useIsFocused();
 
@@ -28,6 +28,10 @@ const LocationPicker = () => {
         setPickedLocation(mapPickedLocation);
         }
     }, [route, isFocused]);
+
+    useEffect(() => {
+        onPickLocation(pickedLocation);
+    },[pickedLocation, onPickLocation])
 
 
     /* --- Verify permissions --  */
