@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { useCallback, useLayoutEffect, useState } from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import IconButton from '../../components/UI/IconButton.component';
 
-function Map() {
+function Map({navigation}) {
 
   const [selectedLocation, setSelectedLocation] = useState();
 
@@ -21,6 +22,29 @@ function Map() {
 
     setSelectedLocation({ lat: lat, lng: lng });
   }
+
+
+  /* --- Confirming picked location ---- */
+  const  savePickedLocationHandler = useCallback(() => {
+    if(!selectedLocation){
+      Alert.alert('No location picked!', 'You have to pick location by tapping on the map first!');
+      return;
+    }
+    navigation.navigate('AddPlace', { 
+      pickedLat: selectedLocation.lat,
+      pickedLng: selectedLocation.lng
+    });
+  },[navigation, selectedLocation])
+
+
+  /* --- To show button save every time when Map screen is active ---  */
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight:({tintColor}) => (
+        <IconButton icon='save' size={24} onPress={savePickedLocationHandler}/>
+      )
+    })
+  },[navigation, savePickedLocationHandler])
 
   return (
     <MapView 
